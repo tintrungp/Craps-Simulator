@@ -1,0 +1,29 @@
+{
+  "name": "craps-simulator",
+  "version": "1.0.0",
+  "description": "Craps Simulator Electron App",
+  "homepage": "https://github.com/tintrungp/Craps-Simulator#readme",
+  "bugs": {
+    "url": "https://github.com/tintrungp/Craps-Simulator/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tintrungp/Craps-Simulator.git"
+  },
+  "license": "MIT",
+  "author": "Tin-Trung Pham",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "package": "electron-packager . CrapsSimulator --platform=darwin --arch=x64 --out=dist --overwrite",
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-packager": "^17.1.2"
+  },
+  "dependencies": {
+    "electron-store": "^10.0.1"
+  }
+}
