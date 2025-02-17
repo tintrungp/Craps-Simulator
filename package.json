@@ -12,8 +12,8 @@
   },
   "license": "MIT",
   "author": "Tin-Trung Pham",
-  "type": "commonjs",
-  "main": "main.js",
+  "type": "module",
+  "main": "main.mjs",
   "scripts": {
     "package": "electron-packager . CrapsSimulator --platform=darwin --arch=x64 --out=dist --overwrite",
     "start": "electron .",
