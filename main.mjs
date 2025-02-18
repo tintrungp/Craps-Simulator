@@ -26,8 +26,9 @@ function createWindow() {
     });
     
     const win = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
+        resizable: false, // Prevent window resizing
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
@@ -47,7 +48,7 @@ function createWindow() {
     win.loadFile('index.html');
 
     // Optional: Open DevTools automatically
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
 }
 
 app.whenReady().then(() => {

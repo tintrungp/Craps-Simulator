@@ -59,4 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
     saveScore(100);
     const score = getScore();
     console.log(score);
+
+    const chipButtons = document.querySelectorAll('.chip-button');
+
+    chipButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove selected class from all chips
+            chipButtons.forEach(btn => btn.classList.remove('selected'));
+            // Add selected class to clicked chip
+            button.classList.add('selected');
+        });
+    });
 });

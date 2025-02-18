@@ -16,16 +16,41 @@
   </div>
 
   <div id="game-screen" style="display: none;">
-    <button id="menuButton" aria-expanded="false">Menu</button>
+    <div class="game-container">
+      <!-- Left Column -->
+      <div class="game-column left-column">
+        <div id="craps-table">
+          <!-- Craps table content -->
+        </div>
+        <div class="chip-controls">
+          <button class="chip-button chip-1" id="chip-1" aria-label="1 dollar chip"></button>
+          <button class="chip-button chip-3" id="chip-3" aria-label="3 dollar chip"></button>
+          <button class="chip-button chip-5" id="chip-5" aria-label="5 dollar chip"></button>
+          <button class="chip-button chip-10" id="chip-10" aria-label="10 dollar chip"></button>
+          <button class="chip-button chip-25" id="chip-25" aria-label="25 dollar chip"></button>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="game-column right-column">
+        <button id="menuButton" aria-expanded="false">Menu</button>
+        <div class="score-table">
+          <!-- Score table content -->
+        </div>
+        <div class="dice-container">
+          <div class="dice-images">
+            <img id="dice1" src="assets/Dice-Green-1.png" alt="Dice 1">
+            <img id="dice2" src="assets/Dice-Green-2.png" alt="Dice 2">
+          </div>
+          <button id="roll-dice">Roll Dice</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu overlay -->
     <div id="menu" class="menu hidden">
       <button id="return-to-game">Return to Game</button>
       <button id="view-scores-ingame">View Scores</button>
-    </div>
-    
-    <div id="craps-table">
-      <!-- Add craps table UI here -->
-      <button id="roll-dice">Roll Dice</button>
-      <div id="dice-result"></div>
     </div>
   </div>
   <script type="module" src="renderer.js"></script>
