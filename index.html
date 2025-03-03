@@ -19,9 +19,97 @@
     <div class="game-container">
       <!-- Left Column -->
       <div class="game-column left-column">
-        <div id="craps-table">
-          <!-- Craps table content -->
+        <!-- Main craps table container -->  
+        <div id="craps-table" class="table-container">
+          <!-- Place bets section -->
+          <div id="place-bets-section" class="betting-section">
+            <div class="bet-area" data-bet-type="place" data-bet-value="4">
+              <span class="bet-label">PLACE 4</span>
+              <div class="chip-stack" id="place-4-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="place" data-bet-value="5">
+              <span class="bet-label">PLACE 5</span>
+              <div class="chip-stack" id="place-5-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="place" data-bet-value="6">
+              <span class="bet-label">PLACE 6</span>
+              <div class="chip-stack" id="place-6-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="place" data-bet-value="8">
+              <span class="bet-label">PLACE 8</span>
+              <div class="chip-stack" id="place-8-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="place" data-bet-value="9">
+              <span class="bet-label">PLACE 9</span>
+              <div class="chip-stack" id="place-9-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="place" data-bet-value="10">
+              <span class="bet-label">PLACE 10</span>
+              <div class="chip-stack" id="place-10-chips"></div>
+            </div>
+          </div>
+          <!-- Don't come section -->
+          <div id="dont-come-section" class="betting-section">
+            <div class="bet-area" data-bet-type="dont-come">
+              <span class="bet-label">DON'T COME</span>
+              <div class="chip-stack" id="dont-come-chips"></div>
+            </div>
+          </div>
+          <!-- Field bet section -->
+          <div id="field-bet-section" class="betting-section">
+            <div class="bet-area" data-bet-type="field" data-bet-value="2">
+              <span class="bet-label">PLACE 2</span>
+              <div class="chip-stack" id="field-2-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="field" data-bet-value="3">
+              <span class="bet-label">PLACE 3</span>
+              <div class="chip-stack" id="field-3-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="field" data-bet-value="4">
+              <span class="bet-label">PLACE 4</span>
+              <div class="chip-stack" id="field-4-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="field" data-bet-value="9">
+              <span class="bet-label">PLACE 9</span>
+              <div class="chip-stack" id="field-9-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="field" data-bet-value="10">
+              <span class="bet-label">PLACE 10</span>
+              <div class="chip-stack" id="field-10-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="field" data-bet-value="11">
+              <span class="bet-label">PLACE 11</span>
+              <div class="chip-stack" id="field-11-chips"></div>
+            </div>
+            <div class="bet-area" data-bet-type="field" data-bet-value="12">
+              <span class="bet-label">PLACE 12</span>
+              <div class="chip-stack" id="field-12-chips"></div>
+            </div>
+          </div>
+          <!-- Pass line section -->
+          <div id="pass-line-section" class="betting-section">
+            <div class="bet-area" data-bet-type="pass-line">
+              <span class="bet-label">PASS LINE</span>
+              <div class="chip-stack" id="pass-line-chips"></div>
+            </div>
+          </div>
+          <!-- Don't pass section -->
+          <div id="dont-pass-section" class="betting-section">
+            <div class="bet-area" data-bet-type="dont-pass">
+              <span class="bet-label">DON'T PASS</span>
+              <div class="chip-stack" id="dont-pass-chips"></div>
+            </div>
+          </div>
+          <!-- Odds bet section -->
+          <div id="odds-bet-section" class="betting-section">
+            <div class="bet-area" data-bet-type="odds" data-linked-to="pass-line">
+              <span class="bet-label">ODDS</span>
+              <div class="chip-stack" id="odds-chips"></div>
+            </div>
+          </div>
         </div>
+
+        <!-- Chip controls -->
         <div class="chip-controls">
           <button class="chip-button chip-1" id="chip-1" aria-label="1 dollar chip"></button>
           <button class="chip-button chip-3" id="chip-3" aria-label="3 dollar chip"></button>
