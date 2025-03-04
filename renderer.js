@@ -39,12 +39,108 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handle viewing scores from in-game menu
     });
 
-    // Roll dice functionality
+    // Track selected chip value and bets
+    let selectedChipValue = null;
+    const bets = new Map(); // Store bet amounts for each betting area
+
+    // Chip selection handling
+    const chipButtons = document.querySelectorAll('.chip-button');
+    chipButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove selected class from all chips
+            chipButtons.forEach(btn => btn.classList.remove('selected'));
+            // Add selected class to clicked chip
+            button.classList.add('selected');
+            
+            // Get chip value from button ID (e.g., "chip-5" -> 5)
+            selectedChipValue = parseInt(button.id.split('-')[1]);
+            console.log('Selected chip value:', selectedChipValue);
+        });
+    });
+
+    // Betting area handling
+    const betAreas = document.querySelectorAll('.bet-area');
+    betAreas.forEach(area => {
+        area.addEventListener('click', () => {
+            if (!selectedChipValue) {
+                console.log('Please select a chip first');
+                return;
+            }
+
+            // Get bet type and value from data attributes
+            const betType = area.dataset.betType;
+            const betValue = area.dataset.betValue;
+            const betKey = betValue ? `${betType}-${betValue}` : betType;
+
+            // Get or initialize current bet amount
+            let currentBet = bets.get(betKey) || 0;
+            currentBet += selectedChipValue;
+            bets.set(betKey, currentBet);
+
+            // Update visual chip stack
+            const chipStack = area.querySelector('.chip-stack');
+            updateChipStack(chipStack, currentBet);
+
+            console.log(`Bet placed on ${betKey}: Total bet = ${currentBet}`);
+        });
+    });
+
+    function updateChipStack(chipStackElement, totalBet) {
+        // Clear existing chips
+        chipStackElement.innerHTML = '';
+
+        if (totalBet > 0) {
+            // Create a chip element showing the total bet
+            const chip = document.createElement('div');
+            chip.className = 'chip';
+            chip.textContent = totalBet;
+            chipStackElement.appendChild(chip);
+        }
+    }
+
+    // Modify the roll dice functionality to process bets
     rollDiceBtn.addEventListener('click', () => {
         const dice1 = Math.floor(Math.random() * 6) + 1;
         const dice2 = Math.floor(Math.random() * 6) + 1;
-        diceResult.textContent = `You rolled: ${dice1} and ${dice2}`;
+        const diceSum = dice1 + dice2;
+
+        // Update dice images
+        document.getElementById('dice1').src = `assets/Dice-Green-${dice1}.png`;
+        document.getElementById('dice2').src = `assets/Dice-Green-${dice2}.png`;
+
+        // Process bets based on dice roll
+        processBets(diceSum);
     });
+
+    function processBets(diceSum) {
+        // Example bet processing logic
+        bets.forEach((betAmount, betKey) => {
+            const [betType, betValue] = betKey.split('-');
+            
+            // Example payout calculation for place bets
+            if (betType === 'place' && parseInt(betValue) === diceSum) {
+                let payout = 0;
+                switch (diceSum) {
+                    case 4:
+                    case 10:
+                        payout = betAmount * 1.8; // 9:5 odds
+                        break;
+                    case 5:
+                    case 9:
+                        payout = betAmount * 1.4; // 7:5 odds
+                        break;
+                    case 6:
+                    case 8:
+                        payout = betAmount * 1.167; // 7:6 odds
+                        break;
+                }
+                console.log(`Winner! Payout for ${betKey}: ${payout}`);
+                // Here you would update the player's balance
+            }
+            
+            // Add more bet processing logic for other bet types
+        });
+    }
 
     // Use the electronAPI from the window object
     const saveScore = (score) => {
@@ -59,15 +155,4 @@ document.addEventListener('DOMContentLoaded', () => {
     saveScore(100);
     const score = getScore();
     console.log(score);
-
-    const chipButtons = document.querySelectorAll('.chip-button');
-
-    chipButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove selected class from all chips
-            chipButtons.forEach(btn => btn.classList.remove('selected'));
-            // Add selected class to clicked chip
-            button.classList.add('selected');
-        });
-    });
 });
