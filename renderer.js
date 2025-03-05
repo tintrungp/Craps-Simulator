@@ -137,8 +137,125 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log(`Winner! Payout for ${betKey}: ${payout}`);
                 // Here you would update the player's balance
             }
+
+            // Process field bets
+            if (betType === 'field') {
+                let payout = 0;
+                switch (diceSum) {
+                    case 3:
+                    case 4:
+                    case 10:
+                    case 11:
+                    case 9:
+                        payout = betAmount * 1;
+                        break;
+                    case 2:
+                    case 12:
+                        payout = betAmount * 2;
+                        break;
+                    case 5:
+                    case 6:
+                    case 8:
+                        payout = -betAmount * 1;
+                        break;
+                }   
+                    if (payout > 0) {
+                    console.log(`Winner! Payout for ${betKey}: ${payout}`);
+                    // Here you would update the player's balance
+                } else {
+                    console.log(`Loser! Payout for ${betKey}: ${payout}`);
+                }
+            }
+
+            // Process pass line bets
+            if (betType === 'pass-line') {
+                let payout = 0;
+                switch (diceSum) {
+                    case 7:
+                        payout = betAmount * 1;
+                        break; 
+                    case 11:
+                        payout = betAmount * 1;
+                        break;
+                    case 2:
+                    case 3:
+                    case 12:
+                        payout = -betAmount;
+                        break;
+                }
+                if (payout > 0) {
+                    console.log(`Winner! Payout for ${betKey}: ${payout}`);
+                    // Here you would update the player's balance
+                } else {
+                    console.log(`Loser! Payout for ${betKey}: ${payout}`);
+                }
+            }
+
+            // Process don't pass bets
+            if (betType === 'dont-pass') {
+                let payout = 0;
+                switch (diceSum) {
+                    case 2:
+                        payout = betAmount * 1; // 3:2 odds
+                        break;
+                    case 3:
+                        payout = betAmount * 1; // 3:2 odds
+                        break;
+                    case 12:
+                        payout = -betAmount;
+                        break;
+                    case 7:
+                    case 11:
+                        payout = -betAmount;
+                        break;
+                }
+                if (payout > 0) {
+                    console.log(`Winner! Payout for ${betKey}: ${payout}`);
+                    // Here you would update the player's balance
+                } else {
+                    console.log(`Loser! Payout for ${betKey}: ${payout}`);
+                }
+            }
             
-            // Add more bet processing logic for other bet types
+            // Process odds bets
+            if (betType === 'odds') {
+                let payout = 0;
+                const linkedBetKey = area.dataset.linkedTo;
+                const linkedBetAmount = bets.get(linkedBetKey) || 0;
+                const odds = area.dataset.odds; 
+
+                if (linkedBetAmount > 0) {
+                    payout = linkedBetAmount * odds;
+                    console.log(`Winner! Payout for ${betKey}: ${payout}`);
+                    // Here you would update the player's balance
+                } else {
+                    console.log(`Loser! Payout for ${betKey}: ${payout}`);
+                }
+            }
+
+            // Process come bets
+            if (betType === 'come') {
+                let payout = 0;
+                switch (diceSum) {
+                    case 7:
+                        payout = betAmount * 1; // 1:1 odds
+                        break;
+                    case 11:
+                        payout = betAmount * 1; // 1:1 odds
+                        break;
+                    case 2: 
+                    case 3:
+                    case 12:
+                        payout = -betAmount;
+                        break;
+                }
+                if (payout > 0) {   
+                    console.log(`Winner! Payout for ${betKey}: ${payout}`);
+                    // Here you would update the player's balance
+                } else {
+                    console.log(`Loser! Payout for ${betKey}: ${payout}`);
+                }
+            }   
         });
     }
 
