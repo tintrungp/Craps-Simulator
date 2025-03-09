@@ -1,7 +1,10 @@
 // Handles all UI-related functionality
-import { startGame } from './game.js';
+import { startGame, endGame, getGameState } from './game.js';
 import { selectChip, placeBet } from './bets.js';
 import { rollDice } from './dice.js';
+import { processBets } from './payouts.js';
+import { updateBalance } from './balance.js';
+import { handleComeOutRoll, handlePointRoll, GAME_STATES } from './game.js';
 
 export function setupUIHandlers() {
     // Start/menu screen handlers
@@ -66,6 +69,7 @@ export function setupUIHandlers() {
                 const betType = area.dataset.betType;
                 const betValue = area.dataset.betValue;
                 const linkedTo = area.dataset.linkedTo;
+                // need to add check to see if pass bet is selected and if so, add odds bet, else reject odds bet
                 const chipStack = area.querySelector('.chip-stack');
                 
                 // Place bet using the bets module
@@ -77,7 +81,31 @@ export function setupUIHandlers() {
     // Dice roll handler
     const setupDiceHandler = () => {
         const rollDiceBtn = document.getElementById('roll-dice');
-        rollDiceBtn.addEventListener('click', rollDice);
+        rollDiceBtn.addEventListener('click', () => {
+            // Roll dice and get basic results
+            const { dice1, dice2, diceSum } = rollDice();
+            
+            // Process bets and get financial results
+            const { totalWinnings, newBalance } = processBets(diceSum);
+            
+            // Update balance and UI
+            updateBalance(totalWinnings);
+            updateBalanceDisplay(newBalance);
+            
+            // Handle game state changes
+            const { state, point } = getGameState();
+            if (state === GAME_STATES.COME_OUT) {
+                handleComeOutRoll(diceSum);
+            } else {
+                handlePointRoll(diceSum, point);
+            }
+        });
+    };
+
+    // Cashout Handler
+    const setupCashoutHandler = () => {
+        const cashoutButton = document.getElementById('cashoutButton');
+        cashoutButton.addEventListener('click', endGame);
     };
     
     // View scores functionality
@@ -86,12 +114,14 @@ export function setupUIHandlers() {
         console.log("Viewing scores...");
         // Communicate with the main process or update UI
     };
+
     
     // Call all setup functions
     setupMenuHandlers();
     setupChipHandlers();
     setupBetAreaHandlers();
     setupDiceHandler();
+    setupCashoutHandler();
 }
 
 // UI update functions
@@ -112,3 +142,34 @@ export function updateDiceDisplay(dice1Value, dice2Value) {
     document.getElementById('dice1').src = `assets/Dice-Green-${dice1Value}.png`;
     document.getElementById('dice2').src = `assets/Dice-Green-${dice2Value}.png`;
 } 
+
+export function updateBalanceDisplay(balance) {
+    // Update the balance display
+    // This is a placeholder for actual UI updates
+    console.log(`Balance: $${balance}`);
+    document.getElementById('balance-display').textContent = `Balance: $${balance}`;
+}
+
+// Update the game state display
+export function updateGameStateDisplay() {
+    const { gameState, point } = getGameState();
+
+    const gameStateDisplay = document.getElementById('game-state-display');
+    const pointDisplay = document.getElementById('point-display');
+    
+    gameStateDisplay.textContent = `Game State: ${gameState}`;
+    pointDisplay.textContent = `Point: ${point}`;
+}     
+
+export function updateBetDisplay(betType, betValue) {
+    const betArea = document.querySelector(`[data-bet-type="${betType}"][data-bet-value="${betValue}"]`);
+    if (betArea) {
+        const chipStack = betArea.querySelector('.chip-stack').querySelectorAll('.chip');
+        if (chipStack) {
+            chipStack.forEach(chip => {
+                chip.remove();
+            });
+            console.log(`Bet ${betType} ${betValue} cleared`);
+        }
+    }
+}

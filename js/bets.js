@@ -1,15 +1,17 @@
 // Handles bet management
-import { updateChipStack } from './ui.js';
+import { updateChipStack, updateBetDisplay } from './ui.js';
 
 // State management for bets
 let selectedChipValue = null;
 const bets = new Map(); // Store bet amounts for each betting area
 
+// Select a chip to bet with 
 export function selectChip(value) {
     selectedChipValue = value;
     console.log('Selected chip value:', selectedChipValue);
 }
 
+// Place a bet on a specific betting area   
 export function placeBet(betType, betValue, linkedTo, chipStackElement) {
     if (!selectedChipValue) {
         console.log('Please select a chip first');
@@ -31,18 +33,21 @@ export function placeBet(betType, betValue, linkedTo, chipStackElement) {
     return true;
 }
 
+// Get all bets
 export function getBets() {
     return bets;
 }
 
+// Clear all bets
 export function clearAllBets() {
-    bets.clear();
-    // Update UI to clear all chip stacks
-    document.querySelectorAll('.chip-stack').forEach(stack => {
-        updateChipStack(stack, 0);
+    bets.forEach((betAmount, betKey) => {
+        const [betType, betValue] = betKey.split('-');
+        updateBetDisplay(betType, betValue);
     });
+    bets.clear();
 }
 
+// Clear a specific bet 
 export function clearBet(betKey) {
     if (bets.has(betKey)) {
         bets.delete(betKey);

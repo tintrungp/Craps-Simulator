@@ -1,5 +1,6 @@
 // Handles payout calculations for different bet types
 import { getBets } from './bets.js';
+import { getBalance } from './balance.js';
 
 // Payout ratios for different bet types
 const PAYOUT_RATIOS = {
@@ -12,9 +13,9 @@ const PAYOUT_RATIOS = {
         8: 1.167
     },
     field: {
-        2: 2,
+        2: 2, 
         12: 2,
-        3: 1,
+        3: 1, 
         4: 1,
         9: 1,
         10: 1,
@@ -23,7 +24,14 @@ const PAYOUT_RATIOS = {
         6: -1,
         8: -1
     },
-    // Add other bet type ratios here
+    odds: {
+        4: 2, // 2:1 odds   
+        5: 1.5, // 3:2 odds
+        6: 1.2, // 6:5 odds
+        8: 1.2, // 6:5 odds
+        9: 1.5, // 3:2 odds
+        10: 2 // 2:1 odds
+    }
 };
 
 export function processBets(diceSum) {
@@ -43,9 +51,7 @@ export function processBets(diceSum) {
         }
     });
     
-    // Here you would update the player's balance
-    console.log(`Total winnings for this roll: ${totalWinnings}`);
-    return totalWinnings;
+    return { totalWinnings, newBalance: getBalance() + totalWinnings };
 }
 
 function calculatePayout(betType, betValue, diceSum, betAmount) {
@@ -62,7 +68,7 @@ function calculatePayout(betType, betValue, diceSum, betAmount) {
     }
     
     // Process pass line bets
-    if (betType === 'pass-line') {
+    if (betType === 'pass-line' || betType === 'come') {
         if (diceSum === 7 || diceSum === 11) {
             return betAmount;
         } else if (diceSum === 2 || diceSum === 3 || diceSum === 12) {
@@ -71,7 +77,7 @@ function calculatePayout(betType, betValue, diceSum, betAmount) {
     }
     
     // Process don't pass bets
-    if (betType === 'dont-pass') {
+    if (betType === 'dont-pass' || betType === 'dont-come') {
         if (diceSum === 2 || diceSum === 3) {
             return betAmount;
         } else if (diceSum === 7 || diceSum === 11 || diceSum === 12) {
@@ -80,5 +86,6 @@ function calculatePayout(betType, betValue, diceSum, betAmount) {
     }
     
     // If no payout condition is met
+    console.log(`No payout for ${betType} ${betValue}, diceSum: ${diceSum}`);
     return 0;
 } 

@@ -1,8 +1,10 @@
 // Coordinates overall game flow and state
 import { clearAllBets } from './bets.js';
+import { saveBalance } from './balance.js';
+import { updateGameStateDisplay } from './ui.js';
 
 // Game state constants
-const GAME_STATES = {
+export const GAME_STATES = {
     COME_OUT: 'come_out',
     POINT: 'point'
 };
@@ -11,6 +13,7 @@ const GAME_STATES = {
 let gameState = GAME_STATES.COME_OUT;
 let point = null;
 
+// Initialize the game
 export function initializeGame() {
     gameState = GAME_STATES.COME_OUT;
     point = null;
@@ -18,23 +21,27 @@ export function initializeGame() {
     updateGameStateDisplay();
 }
 
+// Start the game
 export function startGame() {
     console.log("Game started");
     initializeGame();
 }
 
+// Set the point
 export function setPoint(newPoint) {
     gameState = GAME_STATES.POINT;
     point = newPoint;
     updateGameStateDisplay();
 }
 
+// Reset the point
 export function resetPoint() {
     gameState = GAME_STATES.COME_OUT;
     point = null;
     updateGameStateDisplay();
 }
 
+// Get the game state
 export function getGameState() {
     return {
         state: gameState,
@@ -42,27 +49,43 @@ export function getGameState() {
     };
 }
 
-function updateGameStateDisplay() {
-    // Update any UI elements that show game state
-    // This is a placeholder for actual UI updates
-    console.log(`Game state: ${gameState}, Point: ${point}`);
+// End the game saving the balance
+export function endGame() {
+    saveBalance();
 }
 
-// Scoring and balance management
-let playerBalance = 1000; // Default starting balance
-
-export function updateBalance(amount) {
-    playerBalance += amount;
-    updateBalanceDisplay();
-    return playerBalance;
+export function handleComeOutRoll(diceSum) {
+    switch(diceSum) {
+        case 7:
+        case 11:
+            // Natural winner
+            console.log("Natural winner!");
+            break;
+        case 2:
+        case 3:
+        case 12:
+            // Craps
+            clearAllBets();
+            console.log("Craps!");
+            break;
+        default:
+            // Point established
+            setPoint(diceSum);
+            console.log(`Point set to ${diceSum}`);
+    }
+    updateGameStateDisplay();
 }
 
-function updateBalanceDisplay() {
-    // Update UI to show current balance
-    console.log(`Player balance: $${playerBalance}`);
-    // Here you would update a DOM element
+export function handlePointRoll(diceSum, currentPoint) {
+    if (diceSum === currentPoint) {
+        // Point made
+        console.log("Point made!");
+        resetPoint();
+    } else if (diceSum === 7) {
+        // Seven out
+        console.log("Seven out!");
+        clearAllBets();
+        resetPoint();
+    }
+    updateGameStateDisplay();
 }
-
-export function getBalance() {
-    return playerBalance;
-} 
