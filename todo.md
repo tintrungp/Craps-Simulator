@@ -1,0 +1,11 @@
+TODO
+- Debug the bet clearing
+    - clear all bets
+    - clear specific bets (pass vs dont pass)
+    - chip stack understanding
+- Fix the balance display
+- fix the point display
+- fix the game state display
+- figure out the cashout button and saving of scores
+- maybe rename all scoring to balances
+- add a restart button / new game?
