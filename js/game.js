@@ -1,5 +1,5 @@
 // Coordinates overall game flow and state
-import { clearAllBets } from './bets.js';
+import { clearAllBets, clearFieldBets } from './bets.js';
 import { saveBalance } from './balance.js';
 import { updateGameStateDisplay } from './ui.js';
 
@@ -73,6 +73,7 @@ export function handleComeOutRoll(diceSum) {
             setPoint(diceSum);
             console.log(`Point set to ${diceSum}`);
     }
+    clearFieldBets();
     updateGameStateDisplay();
 }
 
@@ -87,5 +88,6 @@ export function handlePointRoll(diceSum, currentPoint) {
         clearAllBets();
         resetPoint();
     }
+    clearFieldBets();
     updateGameStateDisplay();
 }

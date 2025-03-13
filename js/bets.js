@@ -41,10 +41,25 @@ export function getBets() {
 // Clear all bets
 export function clearAllBets() {
     bets.forEach((betAmount, betKey) => {
-        const [betType, betValue] = betKey.split('-');
-        updateBetDisplay(betType, betValue);
+        // Check if the bet is a place bet
+        if (betKey.includes('place')) {
+            const [betType, betValue] = betKey.split('-');
+            updateBetDisplay(betType, betValue);
+        } else {
+            // For bet types without a value (field, pass-line, etc.)
+            updateBetDisplay(betKey, null);
+        }
     });
     bets.clear();
+}
+
+// Clear Field bets
+export function clearFieldBets() {
+    // Find and remove the field bet if it exists
+    if (bets.has('field')) {
+        updateBetDisplay('field', null);
+        bets.delete('field');
+    }
 }
 
 // Clear a specific bet 

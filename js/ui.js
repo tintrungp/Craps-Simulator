@@ -67,8 +67,8 @@ export function setupUIHandlers() {
             area.addEventListener('click', () => {
                 // Get bet type and value from data attributes
                 const betType = area.dataset.betType;
-                const betValue = area.dataset.betValue;
-                const linkedTo = area.dataset.linkedTo;
+                const betValue = area.dataset.betValue || null;
+                const linkedTo = area.dataset.linkedTo || null;
                 // need to add check to see if pass bet is selected and if so, add odds bet, else reject odds bet
                 const chipStack = area.querySelector('.chip-stack');
                 
@@ -162,13 +162,22 @@ export function updateGameStateDisplay() {
 }     
 
 export function updateBetDisplay(betType, betValue) {
+    // For bet types that don't use betValue (single bet areas)
+    if (['field', 'dont-come', 'pass-line', 'dont-pass', 'odds-bet'].includes(betType)) {
+        const chipStack = document.getElementById(`${betType}-chips`);
+        if (chipStack) {
+            chipStack.innerHTML = '';
+            console.log(`${betType} bet cleared`);
+        }
+        return;
+    }
+    
+    // For other bet types that use betValue
     const betArea = document.querySelector(`[data-bet-type="${betType}"][data-bet-value="${betValue}"]`);
     if (betArea) {
-        const chipStack = betArea.querySelector('.chip-stack').querySelectorAll('.chip');
+        const chipStack = betArea.querySelector('.chip-stack');
         if (chipStack) {
-            chipStack.forEach(chip => {
-                chip.remove();
-            });
+            chipStack.innerHTML = '';
             console.log(`Bet ${betType} ${betValue} cleared`);
         }
     }

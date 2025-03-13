@@ -12,18 +12,6 @@ const PAYOUT_RATIOS = {
         6: 1.167, // 7:6 odds
         8: 1.167
     },
-    field: {
-        2: 2, 
-        12: 2,
-        3: 1, 
-        4: 1,
-        9: 1,
-        10: 1,
-        11: 1,
-        5: -1,
-        6: -1,
-        8: -1
-    },
     odds: {
         4: 2, // 2:1 odds   
         5: 1.5, // 3:2 odds
@@ -63,8 +51,18 @@ function calculatePayout(betType, betValue, diceSum, betAmount) {
     }
     
     // Process field bets
-    if (betType === 'field' && PAYOUT_RATIOS.field[diceSum]) {
-        return betAmount * PAYOUT_RATIOS.field[diceSum];
+    if (betType === 'field') {
+        // Field bet is a single bet type that wins on 2,3,4,9,10,11,12 and loses on 5,6,7,8
+        if ([2, 3, 4, 9, 10, 11, 12].includes(diceSum)) {
+            // Double payout for 2 and 12
+            if (diceSum === 2 || diceSum === 12) {
+                return betAmount * 2;
+            } else {
+                return betAmount;
+            }
+        } else if ([5, 6, 7, 8].includes(diceSum)) {
+            return -betAmount;
+        }
     }
     
     // Process pass line bets
