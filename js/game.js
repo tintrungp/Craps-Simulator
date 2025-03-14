@@ -5,8 +5,8 @@ import { updateGameStateDisplay } from './ui.js';
 
 // Game state constants
 export const GAME_STATES = {
-    COME_OUT: 'come_out',
-    POINT: 'point'
+    COME_OUT: 'Come Out',
+    POINT: 'Point'
 };
 
 // Game state variables
@@ -19,6 +19,7 @@ export function initializeGame() {
     point = null;
     clearAllBets();
     updateGameStateDisplay();
+    console.log("Game State:", gameState);
 }
 
 // Start the game
@@ -44,7 +45,7 @@ export function resetPoint() {
 // Get the game state
 export function getGameState() {
     return {
-        state: gameState,
+        gameState: gameState,
         point: point
     };
 }

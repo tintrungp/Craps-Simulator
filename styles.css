@@ -282,3 +282,16 @@ button:hover {
 .hidden {
     display: none !important;
 }
+
+.game-state-display {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;  /* Space between elements */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.game-state-display span {
+    text-align: center;
+}

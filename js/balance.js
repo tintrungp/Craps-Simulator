@@ -1,4 +1,4 @@
-// State management for player balance/score
+// State management for player balance
 let balance = 1000; // Default starting balance
 
 // Get the current balance

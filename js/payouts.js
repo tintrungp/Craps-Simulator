@@ -1,6 +1,6 @@
 // Handles payout calculations for different bet types
 import { getBets } from './bets.js';
-import { getBalance } from './balance.js';
+import { getBalance, updateBalance } from './balance.js';
 
 // Payout ratios for different bet types
 const PAYOUT_RATIOS = {
@@ -38,8 +38,11 @@ export function processBets(diceSum) {
             totalWinnings += payout;
         }
     });
+
+    // Update the balance
+    updateBalance(totalWinnings);
     
-    return { totalWinnings, newBalance: getBalance() + totalWinnings };
+    return getBalance();
 }
 
 function calculatePayout(betType, betValue, diceSum, betAmount) {

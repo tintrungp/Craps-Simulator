@@ -86,10 +86,9 @@ export function setupUIHandlers() {
             const { dice1, dice2, diceSum } = rollDice();
             
             // Process bets and get financial results
-            const { totalWinnings, newBalance } = processBets(diceSum);
+            const newBalance = processBets(diceSum);
             
             // Update balance and UI
-            updateBalance(totalWinnings);
             updateBalanceDisplay(newBalance);
             
             // Handle game state changes
@@ -158,7 +157,7 @@ export function updateGameStateDisplay() {
     const pointDisplay = document.getElementById('point-display');
     
     gameStateDisplay.textContent = `Game State: ${gameState}`;
-    pointDisplay.textContent = `Point: ${point}`;
+    pointDisplay.textContent = `Point: ${point ?? 'No Point'}`;
 }     
 
 export function updateBetDisplay(betType, betValue) {
