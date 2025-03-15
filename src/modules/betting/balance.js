@@ -18,3 +18,8 @@ export function saveBalance() {
     window.electronAPI.saveScore(balance);
     console.log(`Balance saved: ${balance}`);
 }
+
+// Add this function for testing
+export function resetBalance(amount = 1000) {
+    balance = amount;
+}

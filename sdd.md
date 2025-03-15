@@ -69,33 +69,33 @@ This section outlines the core components of the project. Explaining the purpose
 The betting system is responsible for handling the betting process. It allows the user to place bets on the outcome of the dice roll. 
 
 This component is contained by the following files:
-- js/bets.js
-- js/payouts.js
-- js/balance.js
+- src/modules/betting/bets.js
+- src/modules/betting/payouts.js
+- src/modules/betting/balance.js
 
 ### Dice Rolling System
 The dice rolling system is responsible for rolling the dice and returning the results.
 
 This component is contained by the following files:
-- js/dice.js
+- src/modules/dice/dice.js
 
 ### Game Logic
 The game logic is responsible for handling the game logic. It calculates the outcome of the dice roll and updates the score/balance.
 
 This component is contained by the following files:
-- js/game.js
+- src/modules/game/game.js
 
 ### UI
 The UI is responsible for displaying the game to the user. It allows the user to place bets, roll the dice, and view the score/balance.
 
 This component is contained by the following files:
-- js/ui.js
+- src/modules/ui/ui.js
 
 ### Saved Game System
 The saved game system is responsible for saving and loading the game state. It allows the user to save the game and load it later.
 
 This component is contained by the following files:
-- js/saved_game.js
+- src/modules/storage/saved-game.js
 
 ---
 
@@ -111,3 +111,32 @@ This component is contained by the following files:
 
 ### What I would do differently next time
 
+## Glossary
+
+### File Structure
+
+```
+craps-game/
+├── src/
+│ ├── modules/
+│ │ ├── betting/
+│ │ │ ├── bets.js
+│ │ │ ├── payouts.js
+│ │ │ └── balance.js
+│ │ ├── dice/
+│ │ │ └── dice.js
+│ │ ├── game/
+│ │ │ └── game.js
+│ │ ├── ui/
+│ │ │ └── ui.js
+│ │ └── storage/
+│ │   └── saved-game.js
+│ └── index.js
+├── __tests__/
+│ ├── unit/
+│ └── integration/
+├── index.html
+├── package.json
+├── README.md
+└── sdd.md
+```

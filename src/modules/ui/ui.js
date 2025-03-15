@@ -1,10 +1,10 @@
 // Handles all UI-related functionality
-import { startGame, endGame, getGameState } from './game.js';
-import { selectChip, placeBet } from './bets.js';
-import { rollDice } from './dice.js';
-import { processBets } from './payouts.js';
-import { updateBalance } from './balance.js';
-import { handleComeOutRoll, handlePointRoll, GAME_STATES } from './game.js';
+import { startGame, endGame, getGameState } from '../game/game.js';
+import { selectChip, placeBet } from '../betting/bets.js';
+import { rollDice } from '../dice.js';
+import { processBets } from '../betting/payouts.js';
+import { updateBalance } from '../betting/balance.js';
+import { handleComeOutRoll, handlePointRoll, GAME_STATES } from '../game/game.js';
 
 export function setupUIHandlers() {
     // Start/menu screen handlers
@@ -68,12 +68,10 @@ export function setupUIHandlers() {
                 // Get bet type and value from data attributes
                 const betType = area.dataset.betType;
                 const betValue = area.dataset.betValue || null;
-                const linkedTo = area.dataset.linkedTo || null;
-                // need to add check to see if pass bet is selected and if so, add odds bet, else reject odds bet
                 const chipStack = area.querySelector('.chip-stack');
                 
                 // Place bet using the bets module
-                placeBet(betType, betValue, linkedTo, chipStack);
+                placeBet(betType, betValue, chipStack);
             });
         });
     };
@@ -151,12 +149,12 @@ export function updateBalanceDisplay(balance) {
 
 // Update the game state display
 export function updateGameStateDisplay() {
-    const { gameState, point } = getGameState();
+    const { state, point } = getGameState();
 
     const gameStateDisplay = document.getElementById('game-state-display');
     const pointDisplay = document.getElementById('point-display');
     
-    gameStateDisplay.textContent = `Game State: ${gameState}`;
+    gameStateDisplay.textContent = `Game State: ${state}`;
     pointDisplay.textContent = `Point: ${point ?? 'No Point'}`;
 }     
 
