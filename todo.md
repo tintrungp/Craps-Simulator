@@ -19,6 +19,13 @@
 - fix the game state display
 - group the game state displays together
 - maybe rename all scoring to balances
+- betting abstraction
+- unit testing + integration testing
+- refactor the code to be more modular
+    - making logic more pure for testing
+    - overegineering? possibly...
+- create software design document
+- 
 
 # Notes
 These warnings don't affect functionality, but when you migrate to TypeScript, you should:

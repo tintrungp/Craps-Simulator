@@ -1,5 +1,5 @@
 // Handles all UI-related functionality
-import { startGame, endGame, getGameState } from '../game/game.js';
+import { initializeGame, endGame, getGameState } from '../game/game.js';
 import { rollDice } from '../dice/dice.js';
 import { handleComeOutRoll, handlePointRoll, GAME_STATES } from '../game/game.js';
 import { handleChipSelection, handleBetPlacement, handleDiceRollResults } from '../betting/betting-display.js';
@@ -33,7 +33,7 @@ export function setupUIHandlers() {
         startGameBtn.addEventListener('click', () => {
             startScreen.style.display = 'none';
             gameScreen.style.display = 'block';
-            startGame();
+            initializeGame();
         });
         
         // View scores functionality

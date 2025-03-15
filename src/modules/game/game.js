@@ -8,6 +8,10 @@ export const GAME_STATES = {
     POINT: 'Point'
 };
 
+//==============================================================================
+// Game State Management
+//==============================================================================
+
 // Game state variables
 let gameState = GAME_STATES.COME_OUT;
 let point = null;
@@ -42,14 +46,32 @@ export function determinePointResult(diceSum, currentPoint) {
     }
 }
 
+// State mutation functions
+export function setPoint(newPoint) {
+    gameState = GAME_STATES.POINT;
+    point = newPoint;
+}
+
+// Pure function to reset the point
+export function resetPoint() {
+    gameState = GAME_STATES.COME_OUT;
+    point = null;
+}
+
+//==============================================================================
+// Game State Mutation Functions
+//==============================================================================
+
 // Functions that update game state
 export function initializeGame() {
+    console.log("Initializing game");
     gameState = GAME_STATES.COME_OUT;
     point = null;
     handleBetsClear();
     updateGameStateDisplay();
 }
 
+// Functions that handle come out roll results
 export function handleComeOutRoll(diceSum) {
     const result = determineComeOutResult(diceSum);
     
@@ -67,6 +89,7 @@ export function handleComeOutRoll(diceSum) {
     updateGameStateDisplay();
 }
 
+// Functions that handle point roll results
 export function handlePointRoll(diceSum, currentPoint) {
     const result = determinePointResult(diceSum, currentPoint);
     
@@ -81,25 +104,6 @@ export function handlePointRoll(diceSum, currentPoint) {
     
     handleFieldBetsClear();
     updateGameStateDisplay();
-}
-
-// State mutation functions
-export function setPoint(newPoint) {
-    gameState = GAME_STATES.POINT;
-    point = newPoint;
-    updateGameStateDisplay();
-}
-
-export function resetPoint() {
-    gameState = GAME_STATES.COME_OUT;
-    point = null;
-    updateGameStateDisplay();
-}
-
-// Start the game
-export function startGame() {
-    console.log("Game started");
-    initializeGame();
 }
 
 // End the game saving the balance
