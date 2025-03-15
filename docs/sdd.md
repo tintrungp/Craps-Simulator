@@ -34,7 +34,7 @@ This section outlines the milestones for the project. Each milestone is a versio
 - [x] Dice rolling system
 - [x] Game logic
 - [x] UI
-- [ ] Testing
+- [x] Testing
 
 #### v0.2 - All Bets
 - [ ] Implement game for all bets
