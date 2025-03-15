@@ -1,10 +1,8 @@
 // Handles all UI-related functionality
 import { startGame, endGame, getGameState } from '../game/game.js';
-import { selectChip, placeBet } from '../betting/bets.js';
-import { rollDice } from '../dice.js';
-import { processBets } from '../betting/payouts.js';
-import { updateBalance } from '../betting/balance.js';
+import { rollDice } from '../dice/dice.js';
 import { handleComeOutRoll, handlePointRoll, GAME_STATES } from '../game/game.js';
+import { handleChipSelection, handleBetPlacement, handleDiceRollResults } from '../betting/betting-display.js';
 
 export function setupUIHandlers() {
     // Start/menu screen handlers
@@ -55,7 +53,7 @@ export function setupUIHandlers() {
                 
                 // Extract chip value and pass to bet handler
                 const chipValue = parseInt(button.id.split('-')[1]);
-                selectChip(chipValue);
+                handleChipSelection(chipValue);
             });
         });
     };
@@ -71,7 +69,7 @@ export function setupUIHandlers() {
                 const chipStack = area.querySelector('.chip-stack');
                 
                 // Place bet using the bets module
-                placeBet(betType, betValue, chipStack);
+                handleBetPlacement(betType, betValue, chipStack);
             });
         });
     };
@@ -84,7 +82,7 @@ export function setupUIHandlers() {
             const { dice1, dice2, diceSum } = rollDice();
             
             // Process bets and get financial results
-            const newBalance = processBets(diceSum);
+            const newBalance = handleDiceRollResults(diceSum);
             
             // Update balance and UI
             updateBalanceDisplay(newBalance);

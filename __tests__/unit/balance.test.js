@@ -1,4 +1,8 @@
-import { getBalance, updateBalance, resetBalance } from '../../src/modules/betting/balance.js';
+import { 
+    getBalance, 
+    updateBalance, 
+    resetBalance 
+} from '../../src/modules/betting/balance.js';
 
 describe('Balance Module', () => {
     // Reset balance before each test

@@ -1,5 +1,5 @@
-// State management for player balance
-let balance = 1000; // Default starting balance
+// Pure functions for balance management
+let balance = 1000; // Still needs state but operations are pure
 
 // Get the current balance
 export function getBalance() {
@@ -9,7 +9,6 @@ export function getBalance() {
 // Update the balance (for wins/losses)
 export function updateBalance(amount) {
     balance += amount;
-    console.log(`Balance updated to ${balance}`);
     return balance;
 }
 

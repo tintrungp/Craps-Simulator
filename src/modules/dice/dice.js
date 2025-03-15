@@ -1,5 +1,5 @@
 // Handles dice rolling logic
-import { updateDiceDisplay, updateBalanceDisplay } from './ui/ui.js';
+import { updateDiceDisplay } from '../ui/ui.js';
 
 // Pure function for generating dice values
 export function generateDiceRoll() {

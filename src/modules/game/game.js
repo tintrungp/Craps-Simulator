@@ -1,6 +1,5 @@
 // Coordinates overall game flow and state
-import { clearAllBets, clearFieldBets } from '../betting/bets.js';
-import { saveBalance } from '../betting/balance.js';
+import { handleBetsClear, handleFieldBetsClear, handleBalanceSave } from '../betting/betting-display.js';
 import { updateGameStateDisplay } from '../ui/ui.js';
 
 // Game state constants
@@ -47,7 +46,7 @@ export function determinePointResult(diceSum, currentPoint) {
 export function initializeGame() {
     gameState = GAME_STATES.COME_OUT;
     point = null;
-    clearAllBets();
+    handleBetsClear();
     updateGameStateDisplay();
 }
 
@@ -58,13 +57,13 @@ export function handleComeOutRoll(diceSum) {
         console.log("Natural winner!");
     } else if (result.result === 'craps') {
         console.log("Craps!");
-        clearAllBets();
+        handleBetsClear();
     } else {
         setPoint(result.newPoint);
         console.log(`Point set to ${result.newPoint}`);
     }
     
-    clearFieldBets();
+    handleFieldBetsClear();
     updateGameStateDisplay();
 }
 
@@ -76,11 +75,11 @@ export function handlePointRoll(diceSum, currentPoint) {
         resetPoint();
     } else if (result.result === 'seven-out') {
         console.log("Seven out!");
-        clearAllBets();
+        handleBetsClear();
         resetPoint();
     }
     
-    clearFieldBets();
+    handleFieldBetsClear();
     updateGameStateDisplay();
 }
 
@@ -105,5 +104,5 @@ export function startGame() {
 
 // End the game saving the balance
 export function endGame() {
-    saveBalance();
+    handleBalanceSave();
 }
