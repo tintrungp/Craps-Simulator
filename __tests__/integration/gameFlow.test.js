@@ -27,17 +27,7 @@ jest.mock('../../src/modules/ui/ui.js', () => ({
     updateBetDisplay: jest.fn()
 }));
 
-// Mock betting display functions
-jest.mock('../../src/modules/betting/betting-display.js', () => ({
-    handleBetsClear: jest.fn(() => clearAllBets()),
-    handleFieldBetsClear: jest.fn(() => {
-        const bets = getBets();
-        if (bets.has('field')) {
-            bets.delete('field');
-        }
-    }),
-    handleBalanceSave: jest.fn()
-}));
+// Don't mock betting display functions - we want to test the integration
 
 describe('Game Flow Integration', () => {
     beforeEach(() => {

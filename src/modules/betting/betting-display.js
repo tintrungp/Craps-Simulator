@@ -44,9 +44,9 @@ export function handleFieldBetsClear() {
     updateBetDisplay('field', null);
 }
 
-export function handleDiceRollResults(diceSum) {
+export function handleDiceRollResults(diceSum, gameState, point = null) {
     const bets = BetsManager.getBets();
-    const payoutResult = PayoutsManager.calculatePayouts(bets, diceSum);
+    const payoutResult = PayoutsManager.calculatePayouts(bets, diceSum, gameState, point);
     const newBalance = BalanceManager.updateBalance(payoutResult.totalWinnings);
     
     // Log results

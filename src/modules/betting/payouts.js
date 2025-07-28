@@ -12,12 +12,12 @@ const PAYOUT_RATIOS = {
     }
 };
 
-export function calculatePayouts(bets, diceSum) {
+export function calculatePayouts(bets, diceSum, gameState, point = null) {
     const results = [];
     let totalWinnings = 0;
 
     bets.forEach((betAmount, betKey) => {
-        const payout = calculateSinglePayout(betKey, betAmount, diceSum);
+        const payout = calculateSinglePayout(betKey, betAmount, diceSum, gameState, point);
         results.push({ betKey, payout });
         totalWinnings += payout;
     });
@@ -28,7 +28,7 @@ export function calculatePayouts(bets, diceSum) {
     };
 }
 
-function calculateSinglePayout(betKey, betAmount, diceSum) {
+function calculateSinglePayout(betKey, betAmount, diceSum, gameState, point) {
     const [betType, betValue] = betKey.split('-');
     
     // Place bets
@@ -41,7 +41,13 @@ function calculateSinglePayout(betKey, betAmount, diceSum) {
     // Field bets
     if (betType === 'field') {
         if ([2, 3, 4, 9, 10, 11, 12].includes(diceSum)) {
-            return betAmount * (diceSum === 2 || diceSum === 12 ? 2 : 1);
+            if (diceSum === 12) {
+                return betAmount * 3; // 12 pays 3:1 (triple)
+            } else if (diceSum === 2) {
+                return betAmount * 2; // 2 pays 2:1 (double)
+            } else {
+                return betAmount; // Even money for 3,4,9,10,11
+            }
         }
         if ([5, 6, 7, 8].includes(diceSum)) {
             return -betAmount;
@@ -49,15 +55,28 @@ function calculateSinglePayout(betKey, betAmount, diceSum) {
     }
     
     // Pass line bets
-    if (betType === 'pass-line' || betType === 'come') {
-        if (diceSum === 7 || diceSum === 11) return betAmount;
-        if (diceSum === 2 || diceSum === 3 || diceSum === 12) return -betAmount;
+    if (betKey === 'pass-line' || betType === 'come') {
+        if (gameState === 'Come Out') {
+            if (diceSum === 7 || diceSum === 11) return betAmount;
+            if (diceSum === 2 || diceSum === 3 || diceSum === 12) return -betAmount;
+        } else if (gameState === 'Point') {
+            // During point phase, pass line wins if point is made, loses on 7
+            if (diceSum === point) return betAmount; // Point made - win
+            if (diceSum === 7) return -betAmount; // Seven out - lose
+        }
     }
     
     // Don't pass bets
-    if (betType === 'dont-pass' || betType === 'dont-come') {
-        if (diceSum === 2 || diceSum === 3) return betAmount;
-        if (diceSum === 7 || diceSum === 11 || diceSum === 12) return -betAmount;
+    if (betKey === 'dont-pass' || betType === 'dont-come') {
+        if (gameState === 'Come Out') {
+            if (diceSum === 2 || diceSum === 3) return betAmount;
+            if (diceSum === 7 || diceSum === 11) return -betAmount;
+            if (diceSum === 12) return 0; // Push on 12
+        } else if (gameState === 'Point') {
+            // During point phase, don't pass loses if point is made, wins on 7
+            if (diceSum === point) return -betAmount; // Point made - lose
+            if (diceSum === 7) return betAmount; // Seven out - win
+        }
     }
     
     return 0;

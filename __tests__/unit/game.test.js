@@ -6,14 +6,16 @@ import {
     GAME_STATES
 } from '../../src/modules/game/game.js';
 
-// Mock the UI and bet functions
-jest.mock('../../js/ui.js', () => ({
+// Mock the UI and betting display functions
+jest.mock('../../src/modules/ui/ui.js', () => ({
     updateGameStateDisplay: jest.fn()
 }));
 
-jest.mock('../../js/bets.js', () => ({
-    clearAllBets: jest.fn(),
-    clearFieldBets: jest.fn()
+jest.mock('../../src/modules/betting/betting-display.js', () => ({
+    handleBetsClear: jest.fn(),
+    handleFieldBetsClear: jest.fn(),
+    handleBalanceSave: jest.fn(),
+    handleDiceRollResults: jest.fn()
 }));
 
 describe('Game Module', () => {
