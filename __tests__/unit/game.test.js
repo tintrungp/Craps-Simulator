@@ -1,9 +1,9 @@
 import { 
-    GAME_STATES, 
+    initializeGame, 
     determineComeOutResult, 
     determinePointResult,
     getGameState,
-    initializeGame 
+    GAME_STATES
 } from '../../src/modules/game/game.js';
 
 // Mock the UI and bet functions

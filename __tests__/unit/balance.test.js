@@ -5,35 +5,45 @@ import {
 } from '../../src/modules/betting/balance.js';
 
 describe('Balance Module', () => {
-    // Reset balance before each test
     beforeEach(() => {
-        resetBalance(1000); // Use our new reset function
+        resetBalance(1000);
     });
 
-    test('initial balance should be 1000', () => {
-        expect(getBalance()).toBe(1000);
+    describe('getBalance', () => {
+        test('returns initial balance correctly', () => {
+            expect(getBalance()).toBe(1000);
+        });
     });
 
-    test('updateBalance should add positive amounts', () => {
-        updateBalance(500);
-        expect(getBalance()).toBe(1500);
+    describe('updateBalance', () => {
+        test('adds positive amount to balance', () => {
+            updateBalance(100);
+            expect(getBalance()).toBe(1100);
+        });
+
+        test('subtracts negative amount from balance', () => {
+            updateBalance(-100);
+            expect(getBalance()).toBe(900);
+        });
+
+        test('returns updated balance', () => {
+            const newBalance = updateBalance(250);
+            expect(newBalance).toBe(1250);
+            expect(getBalance()).toBe(1250);
+        });
     });
 
-    test('updateBalance should subtract negative amounts', () => {
-        updateBalance(-300);
-        expect(getBalance()).toBe(700);
-    });
+    describe('resetBalance', () => {
+        test('resets to specified amount', () => {
+            updateBalance(500);
+            resetBalance(2000);
+            expect(getBalance()).toBe(2000);
+        });
 
-    test('multiple balance updates should accumulate correctly', () => {
-        updateBalance(500);  // 1500
-        updateBalance(-200); // 1300
-        updateBalance(300);  // 1600
-        expect(getBalance()).toBe(1600);
-    });
-
-    test('resetBalance should set balance to specified amount', () => {
-        updateBalance(500);  // 1500
-        resetBalance(2000);
-        expect(getBalance()).toBe(2000);
+        test('resets to default 1000 when no amount specified', () => {
+            updateBalance(500);
+            resetBalance();
+            expect(getBalance()).toBe(1000);
+        });
     });
 });
