@@ -109,7 +109,9 @@ describe('Game Flow Integration', () => {
             expect(getBalance()).toBe(1010); // Lose 10 on pass line, win 20 on field
             expect(getBets().has('field')).toBe(false); // Field bet resolved
             
-            // Place new field bet
+            // Place new bets for second roll
+            selectChip(10);
+            placeBet('pass-line', null);
             placeBet('field', null);
             
             // Field loss (7)

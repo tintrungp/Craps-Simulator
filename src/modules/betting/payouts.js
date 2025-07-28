@@ -32,8 +32,11 @@ function calculateSinglePayout(betKey, betAmount, diceSum, gameState, point) {
     const [betType, betValue] = betKey.split('-');
     
     // Place bets
-    if (betType === 'place' && PAYOUT_RATIOS.place[diceSum]) {
-        if (parseInt(betValue) === diceSum) {
+    if (betType === 'place') {
+        if (diceSum === 7) {
+            return -betAmount; // Place bets lose on seven
+        }
+        if (PAYOUT_RATIOS.place[diceSum] && parseInt(betValue) === diceSum) {
             return betAmount * PAYOUT_RATIOS.place[diceSum];
         }
     }

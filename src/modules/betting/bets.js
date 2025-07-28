@@ -43,3 +43,10 @@ export function clearAllBets() {
 export function clearFieldBets() {
     bets.delete('field');
 }
+
+// Clear specific losing bets (more selective than clearAllBets)
+export function clearLosingBets(losingBets) {
+    losingBets.forEach(betKey => {
+        bets.delete(betKey);
+    });
+}

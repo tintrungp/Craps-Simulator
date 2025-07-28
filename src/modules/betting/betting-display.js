@@ -39,6 +39,21 @@ export function handleBetsClear() {
     });
 }
 
+// Clear only losing bets based on payout results
+export function handleSelectiveBetsClear(payoutResults) {
+    const losingBets = payoutResults
+        .filter(result => result.payout < 0)
+        .map(result => result.betKey);
+    
+    BetsManager.clearLosingBets(losingBets);
+    
+    // UI updates for cleared bets
+    losingBets.forEach(betKey => {
+        const [betType, betValue] = betKey.split('-');
+        updateBetDisplay(betType, betValue);
+    });
+}
+
 export function handleFieldBetsClear() {
     BetsManager.clearFieldBets();
     updateBetDisplay('field', null);
@@ -58,9 +73,12 @@ export function handleDiceRollResults(diceSum, gameState, point = null) {
         }
     });
     
+    // Clear losing bets selectively
+    handleSelectiveBetsClear(payoutResult.results);
+    
     // Update UI
     updateBalanceDisplay(newBalance);
-    return newBalance;
+    return { newBalance, payoutResults: payoutResult.results };
 }
 
 export function handleBalanceSave() {

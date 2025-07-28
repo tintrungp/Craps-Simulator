@@ -1,5 +1,5 @@
 // Coordinates overall game flow and state
-import { handleBetsClear, handleFieldBetsClear, handleBalanceSave, handleDiceRollResults } from '../betting/betting-display.js';
+import { handleBetsClear, handleFieldBetsClear, handleBalanceSave, handleDiceRollResults, handleSelectiveBetsClear } from '../betting/betting-display.js';
 import { updateGameStateDisplay } from '../ui/ui.js';
 
 // Game state constants
@@ -75,14 +75,14 @@ export function initializeGame() {
 export function handleComeOutRoll(diceSum) {
     const result = determineComeOutResult(diceSum);
     
-    // Calculate payouts first (before clearing bets)
-    handleDiceRollResults(diceSum, gameState, point);
+    // Calculate payouts and clear losing bets
+    const diceResult = handleDiceRollResults(diceSum, gameState, point);
     
     if (result.result === 'natural') {
         console.log("Natural winner!");
     } else if (result.result === 'craps') {
         console.log("Craps!");
-        handleBetsClear();
+        // Don't call handleBetsClear() - losing bets already cleared by handleDiceRollResults
     } else {
         setPoint(result.newPoint);
         console.log(`Point set to ${result.newPoint}`);
@@ -96,14 +96,15 @@ export function handleComeOutRoll(diceSum) {
 export function handlePointRoll(diceSum, currentPoint) {
     const result = determinePointResult(diceSum, currentPoint);
     
-    // Calculate payouts first (before clearing bets)
-    handleDiceRollResults(diceSum, gameState, currentPoint);
+    // Calculate payouts and clear losing bets
+    const diceResult = handleDiceRollResults(diceSum, gameState, currentPoint);
     
     if (result.result === 'point-made') {
         console.log("Point made!");
         resetPoint();
     } else if (result.result === 'seven-out') {
         console.log("Seven out!");
+        // Clear all remaining bets on seven-out (this is correct craps behavior)
         handleBetsClear();
         resetPoint();
     }
