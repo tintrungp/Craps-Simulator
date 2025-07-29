@@ -29,7 +29,9 @@ function createWindow() {
         width: 1200,
         height: 800,
         useContentSize: true,
-        resizable: false, // Prevent window resizing
+        resizable: true, // Allow window resizing
+        minWidth: 800, // Set minimum width
+        minHeight: 600, // Set minimum height
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
