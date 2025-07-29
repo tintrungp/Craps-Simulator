@@ -81,14 +81,14 @@ export function setupUIHandlers() {
             // Roll dice and get basic results
             const { dice1, dice2, diceSum } = rollDice();
             
-            // Process bets and get financial results
-            const newBalance = handleDiceRollResults(diceSum);
+            // Get game state and process bets
+            const { state, point } = getGameState();
+            const diceResult = handleDiceRollResults(diceSum, state, point);
             
             // Update balance and UI
-            updateBalanceDisplay(newBalance);
+            updateBalanceDisplay(diceResult.newBalance);
             
             // Handle game state changes
-            const { state, point } = getGameState();
             if (state === GAME_STATES.COME_OUT) {
                 handleComeOutRoll(diceSum);
             } else {
@@ -142,7 +142,7 @@ export function updateBalanceDisplay(balance) {
     // Update the balance display
     // This is a placeholder for actual UI updates
     console.log(`Balance: $${balance}`);
-    document.getElementById('balance-display').textContent = `Balance: $${balance}`;
+    document.getElementById('balance-display').textContent = `$${balance}`;
 }
 
 // Update the game state display
