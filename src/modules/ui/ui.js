@@ -125,11 +125,28 @@ export function updateChipStack(chipStackElement, totalBet) {
     chipStackElement.innerHTML = '';
     
     if (totalBet > 0) {
-        // Create a chip element showing the total bet
+        // Create a visual chip stack
+        const chipStack = document.createElement('div');
+        chipStack.className = 'placed-chip-stack';
+        chipStack.style.display = 'flex';
+        chipStack.style.flexDirection = 'column';
+        chipStack.style.alignItems = 'center';
+        chipStack.style.gap = '2px';
+        
+        // Create chip element showing the total bet
         const chip = document.createElement('div');
-        chip.className = 'chip';
-        chip.textContent = totalBet;
-        chipStackElement.appendChild(chip);
+        chip.className = 'chip placed-chip';
+        chip.textContent = `$${totalBet}`;
+        chip.style.animation = 'chipPlace 0.3s ease-out';
+        
+        chipStack.appendChild(chip);
+        chipStackElement.appendChild(chipStack);
+        
+        // Add pulse effect for new bets
+        chipStackElement.style.animation = 'betPlaced 0.5s ease-out';
+        setTimeout(() => {
+            chipStackElement.style.animation = '';
+        }, 500);
     }
 }
 
